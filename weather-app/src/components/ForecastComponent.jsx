@@ -1,7 +1,7 @@
 import React from 'react';
 import image from '../images/021-sun.png';
 
-export const Forecast = ({ currentDay }) => {
+export const Forecast = ({ currentDay, forecast }) => {
     return (
         <div className="forecast-wrapper">
             <div className="forecast-container">
@@ -11,11 +11,11 @@ export const Forecast = ({ currentDay }) => {
                     </p>
                 </div>
                 <div >
-                    <img className="weather-img" src={image} alt="" />
+                    <img className="weather-img" src={ image } alt="" />
                 </div>
                 <div>
                     <p className="temp">
-                        <b>74°</b> 86°
+                        <b>76° |</b> 86°
                     </p>
                 </div>
             </div>
