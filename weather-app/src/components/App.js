@@ -9,28 +9,33 @@ class App extends React.Component {
     this.state = {
       week: [],
       currentDay: moment().format('dddd'),
-      forecasts: []
+      fiveDayTemps: [],
+
       // yesterday: moment().subtract(1, 'd').format('dddd'),
       // tomorrow: moment().add(1, 'd').format('dddd')
     }
   }
 
   componentDidMount() {
-    fetch('http://api.openweathermap.org/data/2.5/forecast?id=4180531&appid=54f2a785f64537fb70d2cb0b0209ba8c').then(res => 
+    fetch('http://api.openweathermap.org/data/2.5/forecast?id=4180531&units=imperial&appid=54f2a785f64537fb70d2cb0b0209ba8c').then(res => 
     res.json()).then((forecastData) => {
-      this.setState({ forecasts: forecastData })
+      let weatherData = forecastData.list.map((temperature) => {
+        return temperature
+      })
+      console.log(weatherData);
+      let day = moment.unix(1584403200);
+      console.log(`dt is: ${day}`)
+      this.setState({ fiveDayTemps: weatherData })
     }).catch(console.log)
   }
 
   render() {
     return (
       <div>
-        {/* {this.state.forecasts.map((forecast) => ( */}
           <Forecast className="forecast-card"
           currentDay={ this.state.currentDay }
-          forecasts={ this.state.forecasts }
+          todaysTemp={ this.state.fiveDayTemps }
           />
-        {/* ))} */}
       </div>
     )
   };
