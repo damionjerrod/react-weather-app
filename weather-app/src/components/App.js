@@ -10,22 +10,26 @@ class App extends React.Component {
       week: [],
       currentDay: moment().format('dddd'),
       fiveDayTemps: [],
-
-      // yesterday: moment().subtract(1, 'd').format('dddd'),
-      // tomorrow: moment().add(1, 'd').format('dddd')
+      apiCurrentDate: "",
+      currentDate: ""
     }
   }
 
   componentDidMount() {
     fetch('http://api.openweathermap.org/data/2.5/forecast?id=4180531&units=imperial&appid=54f2a785f64537fb70d2cb0b0209ba8c').then(res => 
     res.json()).then((forecastData) => {
-      let weatherData = forecastData.list.map((temperature) => {
-        return temperature
+      let allWeatherData = forecastData.list.map((temperature) => temperature);
+      let apiCurrentDate = forecastData.list.map((temperature) => temperature.dt_txt);
+      let currentDate = moment(new Date().toString());
+      apiCurrentDate = apiCurrentDate[0].split(' ');
+      currentDate = currentDate.format().split('T');
+      console.log(currentDate[0]);
+      console.log(apiCurrentDate[0]);
+      this.setState({ 
+        fiveDayTemps: allWeatherData,
+        apiCurrentDate: apiCurrentDate,
+        currentDate: currentDate
       })
-      console.log(weatherData);
-      let day = moment.unix(1584403200);
-      console.log(`dt is: ${day}`)
-      this.setState({ fiveDayTemps: weatherData })
     }).catch(console.log)
   }
 
@@ -34,7 +38,9 @@ class App extends React.Component {
       <div>
           <Forecast className="forecast-card"
           currentDay={ this.state.currentDay }
-          todaysTemp={ this.state.fiveDayTemps }
+          currentTemp={ console.log(this.state.fiveDayTemps[0]) }
+          apiCurrentDate={ this.state.apiCurrentDate }
+          currentDate={ this.state.currentDate }
           />
       </div>
     )
@@ -42,5 +48,11 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+// yesterday: moment().subtract(1, 'd').format('dddd'),
+// tomorrow: moment().add(1, 'd').format('dddd')
+// moment().format('dddd')
+
 
 // Image Attribution link: Icons made by <a href="https://www.flaticon.com/authors/linector" title="Linector">Linector</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
