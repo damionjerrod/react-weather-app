@@ -11,7 +11,8 @@ class App extends React.Component {
       currentDay: moment().format('dddd'),
       fiveDayTemps: [],
       apiCurrentDate: "",
-      currentDate: ""
+      currentDate: "",
+      currentTemp: ""
     }
   }
 
@@ -21,15 +22,18 @@ class App extends React.Component {
       let allWeatherData = forecastData.list.map((temperature) => temperature);
       let apiCurrentDate = forecastData.list.map((temperature) => temperature.dt_txt);
       let currentDate = moment(new Date().toString());
+      let currentTemp = allWeatherData[0];
       apiCurrentDate = apiCurrentDate[0].split(' ');
       currentDate = currentDate.format().split('T');
       console.log(currentDate[0]);
       console.log(apiCurrentDate[0]);
+      console.log(currentTemp);
       this.setState({ 
         fiveDayTemps: allWeatherData,
         apiCurrentDate: apiCurrentDate,
-        currentDate: currentDate
+        currentDate: currentDate,
       })
+      console.log(this.state.fiveDayTemps);
     }).catch(console.log)
   }
 
@@ -38,7 +42,7 @@ class App extends React.Component {
       <div>
           <Forecast className="forecast-card"
           currentDay={ this.state.currentDay }
-          currentTemp={ console.log(this.state.fiveDayTemps[0]) }
+          currentTemp={ console.log(this.state.currentTemp) }
           apiCurrentDate={ this.state.apiCurrentDate }
           currentDate={ this.state.currentDate }
           />
