@@ -7,51 +7,69 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      week: [],
       currentDay: moment().format('dddd'),
-      fiveDayTemps: [],
-      apiCurrentDate: "",
-      currentDate: "",
-      currentTemp: ""
+      weatherData: [],
+      forecastData: [],
+      isLoading: true
+      // fiveDayTemps: [],
+      // apiCurrentDate: "",
+      // currentDate: "",
+      // currentTemp: ""
     }
   }
 
   componentDidMount() {
-    fetch('http://api.openweathermap.org/data/2.5/forecast?id=4180531&units=imperial&appid=54f2a785f64537fb70d2cb0b0209ba8c').then(res => 
-    res.json()).then((forecastData) => {
-      let allWeatherData = forecastData.list.map((temperature) => temperature);
-      let apiCurrentDate = forecastData.list.map((temperature) => temperature.dt_txt);
-      let currentDate = moment(new Date().toString());
-      let currentTemp = allWeatherData[0];
-      apiCurrentDate = apiCurrentDate[0].split(' ');
-      currentDate = currentDate.format().split('T');
-      console.log(currentDate[0]);
-      console.log(apiCurrentDate[0]);
-      console.log(currentTemp);
-      this.setState({ 
-        fiveDayTemps: allWeatherData,
-        apiCurrentDate: apiCurrentDate,
-        currentDate: currentDate,
-      })
-      console.log(this.state.fiveDayTemps);
+    fetch('http://api.openweathermap.org/data/2.5/forecast?id=4180531&units=imperial&appid=54f2a785f64537fb70d2cb0b0209ba8c')
+      .then(res => res.json())
+      .then((weatherData) => {
+        this.setState({
+          isLoading: false,
+          weatherData: weatherData
+        })    
     }).catch(console.log)
   }
 
   render() {
-    return (
-      <div>
-          <Forecast className="forecast-card"
-          currentDay={ this.state.currentDay }
-          currentTemp={ console.log(this.state.currentTemp) }
-          apiCurrentDate={ this.state.apiCurrentDate }
-          currentDate={ this.state.currentDate }
-          />
-      </div>
+
+    const { list } = this.state.weatherData;
+    console.log(list);
+
+      return (
+        <div>
+          {this.state.isLoading ? <div>loading...</div> :
+          <div>
+            <Forecast className="forecast-card"
+            currentDay={ this.state.currentDay }
+            forecast={ list }
+            // currentTemp={ console.log(this.state.currentTemp) }
+            // apiCurrentDate={ this.state.apiCurrentDate }
+            // currentDate={ this.state.currentDate }
+            />
+          </div>
+          }
+        </div>
     )
   };
 }
 
 export default App;
+
+
+      // let allWeatherData = forecastData.list.map((temperature) => temperature);
+      // let apiCurrentDate = forecastData.list.map((temperature) => temperature.dt_txt);
+      // let currentDate = moment(new Date().toString());
+      // let currentTemp = allWeatherData[0];
+      // apiCurrentDate = apiCurrentDate[0].split(' ');
+      // currentDate = currentDate.format().split('T');
+      // console.log(currentDate[0]);
+      // console.log(apiCurrentDate[0]);
+      // console.log(currentTemp);
+      // this.setState({ 
+      //   fiveDayTemps: allWeatherData,
+      //   apiCurrentDate: apiCurrentDate,
+      //   currentDate: currentDate,
+      // })
+      // console.log(this.state.fiveDayTemps);
 
 
 // yesterday: moment().subtract(1, 'd').format('dddd'),

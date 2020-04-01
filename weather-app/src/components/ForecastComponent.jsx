@@ -1,9 +1,10 @@
 import React from 'react';
 import image from '../images/021-sun.png';
 
-export const Forecast = ({ currentDay, currentTemp, apiCurrentDate, currentDate }) => {
+export const Forecast = ({ currentDay, forecast, currentTemp, apiCurrentDate, currentDate }) => {
     return (
         <div className="forecast-wrapper">
+        { forecast.map((forecast) => (
             <div className="forecast-container">
                 <div>
                     <p>
@@ -13,19 +14,12 @@ export const Forecast = ({ currentDay, currentTemp, apiCurrentDate, currentDate 
                 <div >
                     <img className="weather-img" src={ image } alt="" />
                 </div>
-                {/* <div>
-                    { todaysTemp.map((temperature) => {
-                        return (
-                            <p
-                                className="temp"
-                                key={temperature.dt}
-                            >
-                            { temperature.main.temp }
-                            </p>
-                        )
-                    })}
-                </div> */}
+                <div>
+                    <div> <b>{forecast.main.temp}</b> </div>
+                </div>
             </div>
+            ))
+        }
         </div>
     )
 };
