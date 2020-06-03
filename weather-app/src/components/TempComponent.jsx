@@ -1,12 +1,16 @@
 import React from 'react';
 
-export const Temp = ({ forecasts }) => {
-    forecasts.map((forecast) => (
-        <div>
-        <p className="temp">
-            <b>74°/</b> 86°
-        </p>
-    </div>
+class Temp extends React.Component {
 
-    ))
+    render(){
+        return(
+                <div>
+                    <p className="temp">
+                        <b>{ Math.round(this.props.dayTemp) }°</b>
+                    </p>
+                </div>
+        )
+    }
 };
+
+export default Temp;
